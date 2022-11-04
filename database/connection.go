@@ -11,7 +11,7 @@ import (
 func GetConnection() (*sql.DB, error) {
 
 	// GET CONNECTION TO DB
-	connectionString := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v", os.Getenv("DBUSER"), os.Getenv("DBPASSWORD"), os.Getenv("DBHOST"), os.Getenv("DBPORT"), os.Getenv("DBNAME"))
+	connectionString := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?parseTime=true", os.Getenv("DBUSER"), os.Getenv("DBPASSWORD"), os.Getenv("DBHOST"), os.Getenv("DBPORT"), os.Getenv("DBNAME"))
 	db, err := sql.Open("mysql", connectionString)
 
 	if err != nil {

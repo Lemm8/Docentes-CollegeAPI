@@ -39,36 +39,36 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (*events.
 	// CONNECT TO DB
 	dbConnection, err := database.GetConnection()
 	if err != nil {
-		return helpers.ServerError("Can't connect to database"), nil
+		return helpers.ServerError(string(err.Error())), nil
 	}
 	db = dbConnection
 
 	switch event.HTTPMethod {
 	case "GET":
-		apiResponse, err := api.GetClientes(event)
+		apiResponse, err := api.GetDocentes(ctx, db, event)
 		if err != nil {
-			return helpers.ServerError("Can't GET clientes"), nil
+			return helpers.ServerError(string(err.Error())), nil
 		}
 		return apiResponse, nil
 
 	case "POST":
-		apiResponse, err := api.PostCliente(event)
+		apiResponse, err := api.PostDocente(event)
 		if err != nil {
-			return helpers.ServerError("Can't POST clientes"), nil
+			return helpers.ServerError(string(err.Error())), nil
 		}
 		return apiResponse, nil
 
 	case "PUT":
-		apiResponse, err := api.PutCliente(event)
+		apiResponse, err := api.PutDocente(event)
 		if err != nil {
-			return helpers.ServerError("Can't POST clientes"), nil
+			return helpers.ServerError(string(err.Error())), nil
 		}
 		return apiResponse, nil
 
 	case "DELETE":
-		apiResponse, err := api.DeleteCliente(event)
+		apiResponse, err := api.DeleteDocente(event)
 		if err != nil {
-			return helpers.ServerError("Can't POST clientes"), nil
+			return helpers.ServerError(string(err.Error())), nil
 		}
 		return apiResponse, nil
 

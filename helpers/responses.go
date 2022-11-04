@@ -46,11 +46,10 @@ func ServerSuccess(msg string) *events.APIGatewayProxyResponse {
 	}
 }
 
-func GetClientesResponse() *events.APIGatewayProxyResponse {
+func GetDocentesResponse(docentes []*Docente) *events.APIGatewayProxyResponse {
 	// FORMAT RESPONSE
-	body, _ := json.Marshal(&DefaultResponse{
-		Status:  http.StatusAccepted,
-		Message: "GET Clientes",
+	body, _ := json.Marshal(&GetDocentesResponseStruct{
+		Docentes: docentes,
 	})
 
 	return &events.APIGatewayProxyResponse{
@@ -59,7 +58,7 @@ func GetClientesResponse() *events.APIGatewayProxyResponse {
 	}
 }
 
-func PostClienteResponse() *events.APIGatewayProxyResponse {
+func PostDocenteResponse() *events.APIGatewayProxyResponse {
 	// FORMAT RESPONSE
 	body, _ := json.Marshal(&DefaultResponse{
 		Status:  http.StatusCreated,
@@ -72,7 +71,7 @@ func PostClienteResponse() *events.APIGatewayProxyResponse {
 	}
 }
 
-func PutClienteResponse() *events.APIGatewayProxyResponse {
+func PutDocenteResponse() *events.APIGatewayProxyResponse {
 	// FORMAT RESPONSE
 	body, _ := json.Marshal(&DefaultResponse{
 		Status:  http.StatusOK,
@@ -85,7 +84,7 @@ func PutClienteResponse() *events.APIGatewayProxyResponse {
 	}
 }
 
-func DeleteClienteResponse() *events.APIGatewayProxyResponse {
+func DeleteDocenteResponse() *events.APIGatewayProxyResponse {
 	// FORMAT RESPONSE
 	body, _ := json.Marshal(&DefaultResponse{
 		Status:  http.StatusOK,
