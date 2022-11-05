@@ -52,7 +52,7 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (*events.
 		return apiResponse, nil
 
 	case "POST":
-		apiResponse, err := api.PostDocente(event)
+		apiResponse, err := api.PostDocente(ctx, db, event)
 		if err != nil {
 			return helpers.ServerError(string(err.Error())), nil
 		}

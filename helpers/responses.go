@@ -49,6 +49,7 @@ func ServerSuccess(msg string) *events.APIGatewayProxyResponse {
 func GetDocentesResponse(docentes []*Docente) *events.APIGatewayProxyResponse {
 	// FORMAT RESPONSE
 	body, _ := json.Marshal(&GetDocentesResponseStruct{
+		Status:   http.StatusOK,
 		Docentes: docentes,
 	})
 
@@ -58,11 +59,11 @@ func GetDocentesResponse(docentes []*Docente) *events.APIGatewayProxyResponse {
 	}
 }
 
-func PostDocenteResponse() *events.APIGatewayProxyResponse {
+func PostDocenteResponse(docente *Docente) *events.APIGatewayProxyResponse {
 	// FORMAT RESPONSE
-	body, _ := json.Marshal(&DefaultResponse{
+	body, _ := json.Marshal(&PostDocentesResponseStruct{
 		Status:  http.StatusCreated,
-		Message: "POST Cliente",
+		Docente: docente,
 	})
 
 	return &events.APIGatewayProxyResponse{
