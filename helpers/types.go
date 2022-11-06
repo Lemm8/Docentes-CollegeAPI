@@ -16,12 +16,13 @@ type Docente struct {
 	Telefono         string `json:"telefono"`
 }
 
-type GetDocentesResponseStruct struct {
+type ListDocentesResponseStruct struct {
 	Status   int        `json:"status"`
 	Docentes []*Docente `json:"docentes"`
 }
 
-type PostDocentesResponseStruct struct {
+type DocenteResponseStruct struct {
 	Status  int      `json:"status"`
+	Message string   `json:"message"`
 	Docente *Docente `json:"docente"`
 }

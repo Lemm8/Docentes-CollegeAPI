@@ -48,7 +48,7 @@ func ServerSuccess(msg string) *events.APIGatewayProxyResponse {
 
 func GetDocentesResponse(docentes []*Docente) *events.APIGatewayProxyResponse {
 	// FORMAT RESPONSE
-	body, _ := json.Marshal(&GetDocentesResponseStruct{
+	body, _ := json.Marshal(&ListDocentesResponseStruct{
 		Status:   http.StatusOK,
 		Docentes: docentes,
 	})
@@ -59,10 +59,11 @@ func GetDocentesResponse(docentes []*Docente) *events.APIGatewayProxyResponse {
 	}
 }
 
-func PostDocenteResponse(docente *Docente) *events.APIGatewayProxyResponse {
+func GetDocenteResponse(docente *Docente) *events.APIGatewayProxyResponse {
 	// FORMAT RESPONSE
-	body, _ := json.Marshal(&PostDocentesResponseStruct{
-		Status:  http.StatusCreated,
+	body, _ := json.Marshal(&DocenteResponseStruct{
+		Status:  http.StatusAccepted,
+		Message: "OK",
 		Docente: docente,
 	})
 
@@ -72,11 +73,12 @@ func PostDocenteResponse(docente *Docente) *events.APIGatewayProxyResponse {
 	}
 }
 
-func PutDocenteResponse() *events.APIGatewayProxyResponse {
+func PostDocenteResponse(docente *Docente) *events.APIGatewayProxyResponse {
 	// FORMAT RESPONSE
-	body, _ := json.Marshal(&DefaultResponse{
-		Status:  http.StatusOK,
-		Message: "PUT Cliente",
+	body, _ := json.Marshal(&DocenteResponseStruct{
+		Status:  http.StatusCreated,
+		Message: "Docente creado",
+		Docente: docente,
 	})
 
 	return &events.APIGatewayProxyResponse{
@@ -85,11 +87,26 @@ func PutDocenteResponse() *events.APIGatewayProxyResponse {
 	}
 }
 
-func DeleteDocenteResponse() *events.APIGatewayProxyResponse {
+func PutDocenteResponse(docente *Docente) *events.APIGatewayProxyResponse {
 	// FORMAT RESPONSE
-	body, _ := json.Marshal(&DefaultResponse{
-		Status:  http.StatusOK,
-		Message: "DELETE Cliente",
+	body, _ := json.Marshal(&DocenteResponseStruct{
+		Status:  http.StatusAccepted,
+		Message: "Docente actualizado",
+		Docente: docente,
+	})
+
+	return &events.APIGatewayProxyResponse{
+		StatusCode: http.StatusAccepted,
+		Body:       string(body),
+	}
+}
+
+func DeleteDocenteResponse(docente *Docente) *events.APIGatewayProxyResponse {
+	// FORMAT RESPONSE
+	body, _ := json.Marshal(&DocenteResponseStruct{
+		Status:  http.StatusAccepted,
+		Message: "Docente eliminado",
+		Docente: docente,
 	})
 
 	return &events.APIGatewayProxyResponse{

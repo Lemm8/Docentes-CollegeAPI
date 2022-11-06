@@ -59,14 +59,14 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (*events.
 		return apiResponse, nil
 
 	case "PUT":
-		apiResponse, err := api.PutDocente(event)
+		apiResponse, err := api.PutDocente(ctx, db, event)
 		if err != nil {
 			return helpers.ServerError(string(err.Error())), nil
 		}
 		return apiResponse, nil
 
 	case "DELETE":
-		apiResponse, err := api.DeleteDocente(event)
+		apiResponse, err := api.DeleteDocente(ctx, db, event)
 		if err != nil {
 			return helpers.ServerError(string(err.Error())), nil
 		}
