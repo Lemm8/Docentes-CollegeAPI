@@ -5,7 +5,8 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"reflect"
+
+	// "reflect"
 	"time"
 
 	"github.com/Lemm8/Docentes-CollegeAPI.git/helpers"
@@ -19,9 +20,10 @@ const getDocenteQuery = `SELECT * FROM Docente WHERE ID = ?;`
 const insertDocenteSQL = `INSERT INTO Docente (Nombre, Apellido, Matricula, Fecha_Nacimiento, Titulo, Correo, Telefono) 
 VALUES (?, ?, ?, ?, ?, ?, ?);`
 
-var updateDocenteSQL = `UPDATE Docente SET `
+var updateDocenteSQL = `UPDATE Docente SET Nombre = ?, Apellido = ?, Matricula = ?, Fecha_Nacimiento = ?, Titulo = ?,
+Correo = ?, Telefono = ? WHERE ID = ?;`
 
-const deleteDocenteSQL = `DELETE FROM Docente WHERE ID = ?`
+const deleteDocenteSQL = `DELETE FROM Docente WHERE ID = ?;`
 
 // GET ALL DOCENTES FROM DB
 func FetchDocentes(ctx context.Context, db *sql.DB) ([]*helpers.Docente, error) {
@@ -111,30 +113,41 @@ func CreateDocente(ctx context.Context, db *sql.DB, nombre string, apellido stri
 
 // UPDATE A DOCENTE
 func UpdateDocente(ctx context.Context, db *sql.DB, id int, docente *helpers.Docente) (*helpers.Docente, error) {
-
-	values := reflect.ValueOf(docente)
-	types := values.Type()
-
-	for i := 0; i < values.NumField(); i++ {
-		if !values.Field(i).IsNil() {
-			if i == values.NumField()-1 {
-				updateDocenteSQL = updateDocenteSQL + fmt.Sprintf("%v = %v WHERE ID = %v", types.Field(i).Name, values.Field(i), id)
-			}
-			updateDocenteSQL = updateDocenteSQL + fmt.Sprintf("%v = %v, ", types.Field(i).Name, values.Field(i))
-		}
-	}
-
-	_, err := db.ExecContext(ctx, updateDocenteSQL)
+	// CHECK IF DOCENTE EXISTS
+	_, err := FetchDocente(ctx, db, id)
 	if err != nil {
 		return nil, err
 	}
 
-	updatedDocente, err := FetchDocente(ctx, db, id)
+	if !validators.IsValidDate(docente.Fecha_Nacimiento) {
+		return nil, errors.New("Invalid date format (must be YYYY-MM-DD)")
+	}
+
+	newFecha, err := time.Parse("2006-01-02", docente.Fecha_Nacimiento)
+
 	if err != nil {
 		return nil, err
 	}
 
-	return updatedDocente, nil
+	_, err = db.ExecContext(ctx, updateDocenteSQL, docente.Nombre, docente.Apellido,
+		docente.Matricula, newFecha, docente.Titulo, docente.Correo, docente.Telefono, id)
+	if err != nil {
+		return nil, err
+	}
+
+	updatedDocente := helpers.Docente{
+		ID:               int(id),
+		Nombre:           docente.Nombre,
+		Apellido:         docente.Apellido,
+		Matricula:        docente.Matricula,
+		Fecha_Nacimiento: docente.Fecha_Nacimiento,
+		Titulo:           docente.Titulo,
+		Correo:           docente.Correo,
+		Telefono:         docente.Telefono,
+	}
+
+	return &updatedDocente, nil
+
 }
 
 // DELETE A DOCENTE

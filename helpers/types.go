@@ -7,9 +7,9 @@ type DefaultResponse struct {
 
 type Docente struct {
 	ID               int    `json:"ID"`
-	Nombre           string `json:"Nombre"`
-	Apellido         string `json:"Apellido"`
-	Matricula        string `json:"Matricula"`
+	Nombre           string `json:"nombre"`
+	Apellido         string `json:"apellido"`
+	Matricula        string `json:"matricula"`
 	Fecha_Nacimiento string `json:"fecha_nacimiento"`
 	Titulo           string `json:"titulo"`
 	Correo           string `json:"correo"`
