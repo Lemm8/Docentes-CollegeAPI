@@ -4,32 +4,17 @@ import (
 	"context"
 	"database/sql"
 
-	// "fmt"
-
-	// "os"
-
 	"github.com/Lemm8/Docentes-CollegeAPI.git/api"
 	"github.com/Lemm8/Docentes-CollegeAPI.git/database"
 	"github.com/Lemm8/Docentes-CollegeAPI.git/helpers"
 	"github.com/Lemm8/Docentes-CollegeAPI.git/validators"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"go.uber.org/zap"
 )
 
-var logger *zap.Logger
 var db *sql.DB
 
-func init() {
-
-	l, _ := zap.NewProduction()
-	logger = l
-
-}
-
 func handler(ctx context.Context, event events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-
-	logger.Info("Received evnet", zap.Any("method", event.HTTPMethod), zap.Any("body", event.Body))
 
 	// VALIDATE PATH
 	if !validators.IsValidPath(event.Path) {
